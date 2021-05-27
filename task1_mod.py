@@ -104,3 +104,8 @@ class Staff():
                     self.find_table.append(temp[column])
             except:
                 break
+
+    def save_as_txt(self, file_name):
+        with open(file_name, 'w') as f:
+            f.write(self.show())
+            f.close()

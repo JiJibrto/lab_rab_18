@@ -22,13 +22,19 @@ import task1_mod as mod
 # количество отработанных дней в месяце, количество рабочих дней в месяце, начислено,
 # удержано. Поиск по номеру отдела, полу, дате поступления, фамилии
 
+def find_wind():
+    find_window = Toplevel()
 
-def load_table():
-    print()
 
 
 def save_table():
-    print()
+    try:
+        file_name = fd.asksaveasfilename(filetypes=(("TXT files", "*.txt"), ("All files", "*.*")))
+        staff.save_as_txt(file_name)
+        mb.showinfo('Файл сохранен', 'Успешно')
+    except:
+        mb.showinfo("Ошибка",
+                    "Файл не выбран!")
 
 
 def add_wind():
@@ -233,6 +239,7 @@ def del_wind():
     ent_1.pack()
     btn_1.pack()
 
+
 def show():
     text.delete(0.0, END)
     text.insert(0.0, staff.show())
@@ -249,7 +256,6 @@ if __name__ == '__main__':
     root.config(menu=main_menu)
 
     file_menu = Menu(main_menu, tearoff=0)
-    file_menu.add_command(label='Открыть', command=load_table)
     file_menu.add_command(label='Сохранить', command=save_table)
     file_menu.add_command(label='Закрыть', command=lambda: root.destroy())
 
@@ -258,6 +264,7 @@ if __name__ == '__main__':
     main_menu.add_command(label="Заменить", command=change_wind_1)
     main_menu.add_command(label="Удалить", command=del_wind)
     main_menu.add_command(label="Обновить страницу", command=show)
+    main_menu.add_command(label="Поиск", command=find_wind)
 
     text = Text(bg='white', width=97, height=100)
     text.pack(side=LEFT)
