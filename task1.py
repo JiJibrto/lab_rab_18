@@ -22,9 +22,44 @@ import task1_mod as mod
 # количество отработанных дней в месяце, количество рабочих дней в месяце, начислено,
 # удержано. Поиск по номеру отдела, полу, дате поступления, фамилии
 
+
 def find_wind():
+    def find_worker():
+        staff.find_person_standart(var.get(), ent.get())
+        mb.showinfo('', 'Успешно')
+        show_find()
+        find_window.destroy()
+
     find_window = Toplevel()
 
+    find_window.resizable(False, False)
+    var = StringVar()
+
+    lab_1 = LabelFrame(find_window, text='Критерий поиска')
+    lab_2 = LabelFrame(find_window, text='Значение')
+    rad_1 = Radiobutton(lab_1, text="Номер отдела", indicatoron=0,
+                        width=15, height=1,
+                        variable=var, value="otdel")
+    rad_2 = Radiobutton(lab_1, text="Пол", indicatoron=0,
+                        width=15, height=1,
+                        variable=var, value="sex")
+    rad_3 = Radiobutton(lab_1, text="Дата поступления", indicatoron=0,
+                        width=15, height=1,
+                        variable=var, value="date")
+    rad_4 = Radiobutton(lab_1, text="Фамилия", indicatoron=0,
+                        width=15, height=1,
+                        variable=var, value="last_name")
+    ent = Entry(lab_2)
+    but = Button(find_window, text='поиск', command=find_worker)
+
+    lab_1.pack(side=LEFT)
+    rad_1.pack(side=TOP)
+    rad_2.pack(side=TOP)
+    rad_3.pack(side=TOP)
+    rad_4.pack(side=TOP)
+    lab_2.pack(side=LEFT)
+    but.pack(side=LEFT)
+    ent.pack(side=LEFT)
 
 
 def save_table():
@@ -245,6 +280,11 @@ def show():
     text.insert(0.0, staff.show())
 
 
+def show_find():
+    text.delete(0.0, END)
+    text.insert(0.0, staff.show_find())
+
+
 if __name__ == '__main__':
     staff = mod.Staff()
     root = Tk()
@@ -259,12 +299,19 @@ if __name__ == '__main__':
     file_menu.add_command(label='Сохранить', command=save_table)
     file_menu.add_command(label='Закрыть', command=lambda: root.destroy())
 
+    table_menu = Menu(main_menu, tearoff=0)
+    table_menu.add_command(label="Добавить", command=add_wind)
+    table_menu.add_command(label="Заменить", command=change_wind_1)
+    table_menu.add_command(label="Удалить", command=del_wind)
+
+    find_menu = Menu(main_menu, tearoff=0)
+    find_menu.add_command(label="Найти", command=find_wind)
+    find_menu.add_command(label="Результат поиска", command=show_find)
+
     main_menu.add_cascade(label="Файл", menu=file_menu)
-    main_menu.add_command(label="Добавить", command=add_wind)
-    main_menu.add_command(label="Заменить", command=change_wind_1)
-    main_menu.add_command(label="Удалить", command=del_wind)
+    main_menu.add_cascade(label="Таблица", menu=table_menu)
+    main_menu.add_cascade(label="Поиск", menu=find_menu)
     main_menu.add_command(label="Обновить страницу", command=show)
-    main_menu.add_command(label="Поиск", command=find_wind)
 
     text = Text(bg='white', width=97, height=100)
     text.pack(side=LEFT)

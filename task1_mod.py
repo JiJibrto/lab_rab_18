@@ -23,13 +23,17 @@ class Staff():
         self.find_table = []
 
     def add(self, t_num, sex, o_num, last_name, okl, date, nadb, nds, workin_days, work_days, nach, uder):
-        self.workers.append([t_num, sex, o_num, last_name, okl, date, nadb, nds, workin_days, work_days, nach, uder])
+        self.workers.append({'tel': t_num, 'sex': sex, 'otdel': o_num, 'last_name': last_name,
+                             'oklad': okl, 'date': date, 'nadb': nadb, 'nds': nds, 'workin_days': workin_days,
+                             'work_days': work_days, 'nach': nach, 'uder': uder})
 
     def delete_worker(self, ind_del):
         del self.workers[ind_del]
 
     def change_worker(self, ind_chg, t_num, sex, o_num, last_name, okl, date, nadb, nds, workin_days, work_days, nach, uder):
-        self.workers[ind_chg] = [t_num, sex, o_num, last_name, okl, date, nadb, nds, workin_days, work_days, nach, uder]
+        self.workers[ind_chg] = {'tel': t_num, 'sex': sex, 'otdel': o_num, 'last_name': last_name,
+                             'oklad': okl, 'date': date, 'nadb': nadb, 'nds': nds, 'workin_days': workin_days,
+                             'work_days': work_days, 'nach': nach, 'uder': uder}
 
     def show(self):
         table = []
@@ -73,18 +77,18 @@ class Staff():
                 print(temp)
                 table.append(
                     "| {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} |".format(
-                        temp[0],
-                        temp[1],
-                        temp[2],
-                        temp[3],
-                        temp[4],
-                        temp[5],
-                        temp[6],
-                        temp[7],
-                        temp[8],
-                        temp[9],
-                        temp[10],
-                        temp[11],
+                        temp['tel'],
+                        temp['sex'],
+                        temp['otdel'],
+                        temp['last_name'],
+                        temp['oklad'],
+                        temp['date'],
+                        temp['nadb'],
+                        temp['nds'],
+                        temp['workin_days'],
+                        temp['work_days'],
+                        temp['nach'],
+                        temp['uder'],
                     )
 
                 )
@@ -94,16 +98,80 @@ class Staff():
 
         return '\n'.join(table)
 
-    def find_person_standart(self, column, znach):
+    def show_find(self):
+        table = []
+        itr = iter(self.find_table)
+        line = "+-{}-+-{}-+-{}-+-{}-+-{}-+-{}-+-{}-+-{}-+-{}-+-{}-+-{}-+-{}-+".format(
+            '-' * 5,
+            '-' * 5,
+            '-' * 5,
+            '-' * 5,
+            '-' * 5,
+            '-' * 5,
+            '-' * 5,
+            '-' * 5,
+            '-' * 5,
+            '-' * 5,
+            '-' * 5,
+            '-' * 5
+        )
+        table.append(line)
+        table.append((
+            "| {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} |".format(
+                "t_num",
+                "sex",
+                "o_num",
+                "l_n",
+                "okl",
+                "date",
+                "nadb",
+                "nds",
+                "win_d",
+                "wk_d",
+                "nach",
+                "uder"
+            )
+        )
+        )
+        table.append(line)
+        while True:
+            try:
+                temp = next(itr)
+                print(temp)
+                table.append(
+                    "| {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} | {:^5} |".format(
+                        temp['tel'],
+                        temp['sex'],
+                        temp['otdel'],
+                        temp['last_name'],
+                        temp['oklad'],
+                        temp['date'],
+                        temp['nadb'],
+                        temp['nds'],
+                        temp['workin_days'],
+                        temp['work_days'],
+                        temp['nach'],
+                        temp['uder'],
+                    )
+
+                )
+                table.append(line)
+            except:
+                break
+
+        return '\n'.join(table)
+
+    def find_person_standart(self, key, znach):
         itr = iter(self.workers)
         self.find_table = []
         while True:
             try:
                 temp = next(itr)
-                if temp[column] == znach:
-                    self.find_table.append(temp[column])
+                if temp[key] == znach:
+                    self.find_table.append(temp)
             except:
                 break
+        print(self.find_table)
 
     def save_as_txt(self, file_name):
         with open(file_name, 'w') as f:
